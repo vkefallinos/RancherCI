@@ -1,6 +1,6 @@
 .catalog:
   name: Infra-ci
-  version: 0.2.0
+  version: 0.5.0
   description: Trusted SSL certificates at zero cost
   minimum_rancher_version: v1.2.0-pre4-rc1
   questions:
