@@ -28,6 +28,14 @@
         Any existing certificate by that name will be updated.
       required: true
       type: string
+    - variable: GITLAB_HOST
+      label: Gitlab subdomain
+      required: true
+      type: string
+    - variable: GITLAB_REGISTRY_HOST
+      label: Registry subdomain
+      required: true
+      type: string
     - variable: DOMAINS
       label: Domain Names
       description: |
@@ -55,15 +63,19 @@
       default: 12
       required: true
       type: int
+    - variable: GITLAB_SECRETS_DB_KEY_BASE
+      label: Gitlab db secret
+      required: true
+      type: password
+    - variable: GITLAB_SECRETS_OTP_KEY_BASE
+      label: Gitlab otp secret
+      required: true
+      type: password
+    - variable: GITLAB_SECRETS_SECRET_KEY_BASE
+      label: Gitlab secret
+      required: true
+      type: password
     - variable: GITLAB_DB_PASS
       label: Gitlab db pass
       required: true
       type: password
-    - variable: GITLAB_HOST
-      label: Gitlab subdomain
-      required: true
-      type: string
-    - variable: GITLAB_REGISTRY_HOST
-      label: Registry subdomain
-      required: true
-      type: string
