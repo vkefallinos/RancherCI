@@ -87,7 +87,7 @@ services:
     environment:
       EULA: Yes
       API_VERSION: ${API_VERSION}
-      CERT_NAME: ${DOMAIN_NAME}
+      CERT_NAME: ${CERT_NAME}
       EMAIL: ${EMAIL}
       DOMAINS: ${DOMAINS}
       PUBLIC_KEY_TYPE: ${PUBLIC_KEY_TYPE}
