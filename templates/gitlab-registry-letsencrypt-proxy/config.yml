@@ -1,7 +1,7 @@
 name: Infra ci
 description: |
   Setup the basic infrstructure for a ci system
-version: 0.5.0
+version: 1.0.0
 category: CI
 maintainer: Vasilis Kefallinos <vkefallinos@gmail.com>
 license: The MIT License
