@@ -4,15 +4,6 @@
   description: Trusted SSL certificates at zero cost
   minimum_rancher_version: v1.2.0-pre4-rc1
   questions:
-    - variable: EULA
-      label: I Agree to the Let's Encrypt TOS
-      description: |
-        Read https://letsencrypt.org/documents/LE-SA-v1.0.1-July-27-2015.pdf
-      required: true
-      type: enum
-      options:
-        - "Yes"
-        - "No"
     - variable: API_VERSION
       label: Let's Encrypt API Version
       description: |
@@ -40,8 +31,8 @@
     - variable: DOMAINS
       label: Domain Names
       description: |
-        Comma delimited list of the certificate domains starting with the Common Name.
-        E.g: `example.com, dev.example.com`.
+        Comma delimited list of the certificate domains for gitlab and registry.
+        E.g: `git.example.com, registry.example.com`.
       required: true
       type: string
     - variable: PUBLIC_KEY_TYPE
@@ -64,47 +55,79 @@
       default: 12
       required: true
       type: int
-    - variable: STORAGE_DRIVER
-      label: Volume Storage Driver (Optional)
-      description: |
-        If you enter the name of an existing storage driver (see `Infrastructure -> Storage`) then a stack scoped storage volume named `lets-encrypt`
-        will be created or used to store account data, certificates and private keys.
-      required: false
-      type: string
-    - variable: PROVIDER
-      label: Domain Validation Method
-      description: Select a DNS provider to use for domain validation. Use 'HTTP' if DNS for the domain is not hosted with any of the providers.
+    - variable: GITLAB_SECRETS_DB_KEY_BASE
+      label: Gitlab secrets db key base
       required: true
-      type: enum
-      default: HTTP
-      options:
-        - HTTP
+      type: password
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
+    - variable: GITLAB_SECRETS_SECRET_KEY_BASE
+      label: Gitlab secrets db key base
+      required: true
+      type: password
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
+    - variable: GITLAB_SECRETS_OTP_KEY_BASE
+      label: Gitlab secrets db key base
+      required: true
+      type: password
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_DB_ADAPTER
       label: Gitlab db adapter
       required: true
       type: string
-      default: postgresql
-    - variable: GITLAB_DB_ADAPTER
-      label: Gitlab db adapter
-      required: true
-      type: string
-      default: postgresql
-    - variable: GITLAB_DB_HOST
-      label: Gitlab db host
-      required: true
-      type: string
-      default: postgresql
-    - variable: GITLAB_DB_NAME
-      label: Gitlab db name
-      required: true
-      type: string
-      default: gitlabhq_production
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_DB_PASS
       label: Gitlab db pass
       required: true
-      type: string
+      type: password
     - variable: GITLAB_DB_USER
       label: Gitlab db user
       required: true
       type: string
       default: gitlab
+    - variable: GITLAB_HOST
+      label: Gitlab host
+      required: true
+      type: string
+    - variable: GITLAB_PORT
+      label: Gitlab host
+      required: true
+      type: string
+      default: 80
+    - variable: GITLAB_REGISTRY_HOST
+      label: Registry host
+      required: true
+      type: string
+    - variable: GITLAB_REGISTRY_HOST
+      label: Registry host
+      required: true
+      type: string
+    - variable: GITLAB_REGISTRY_API_URL
+      label: Registry api url
+      required: true
+      type: string
+      default: http://registry:5000
+    - variable: GITLAB_REGISTRY_ENABLED
+      label: Registry enabled
+      required: true
+      type: string
+      default: 'true'
+    - variable: GITLAB_REGISTRY_ISSUER
+      label: Registry issuer
+      required: true
+      type: string
+      default: gitlab-issuer
+    - variable: GITLAB_REGISTRY_ISSUER
+      label: Registry issuer
+      required: true
+      type: string
+      default: gitlab-issuer
+    - variable: GITLAB_REGISTRY_KEY_PATH
+      label: Registry key path
+      required: true
+      type: string
+      default: /certs/production/certs/inkmap/privkey.pem
+    - variable: GITLAB_REGISTRY_ISSUER
+      label: Registry issuer
+      required: true
+      type: string
+      default: gitlab-issuer
