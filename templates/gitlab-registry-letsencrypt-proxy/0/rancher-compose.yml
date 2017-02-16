@@ -28,13 +28,6 @@
         Any existing certificate by that name will be updated.
       required: true
       type: string
-    - variable: DOMAINS
-      label: Domain Names
-      description: |
-        Comma delimited list of the certificate domains for gitlab and registry.
-        E.g: `git.example.com, registry.example.com`.
-      required: true
-      type: string
     - variable: PUBLIC_KEY_TYPE
       label: Public Key Algorithm
       description: |
@@ -70,64 +63,15 @@
       required: true
       type: password
       default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
-    - variable: GITLAB_DB_ADAPTER
-      label: Gitlab db adapter
-      required: true
-      type: string
-      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_DB_PASS
       label: Gitlab db pass
       required: true
       type: password
-    - variable: GITLAB_DB_USER
-      label: Gitlab db user
-      required: true
-      type: string
-      default: gitlab
     - variable: GITLAB_HOST
       label: Gitlab host
       required: true
       type: string
-    - variable: GITLAB_PORT
-      label: Gitlab host
-      required: true
-      type: string
-      default: 80
     - variable: GITLAB_REGISTRY_HOST
       label: Registry host
       required: true
       type: string
-    - variable: GITLAB_REGISTRY_HOST
-      label: Registry host
-      required: true
-      type: string
-    - variable: GITLAB_REGISTRY_API_URL
-      label: Registry api url
-      required: true
-      type: string
-      default: http://registry:5000
-    - variable: GITLAB_REGISTRY_ENABLED
-      label: Registry enabled
-      required: true
-      type: string
-      default: 'true'
-    - variable: GITLAB_REGISTRY_ISSUER
-      label: Registry issuer
-      required: true
-      type: string
-      default: gitlab-issuer
-    - variable: GITLAB_REGISTRY_ISSUER
-      label: Registry issuer
-      required: true
-      type: string
-      default: gitlab-issuer
-    - variable: GITLAB_REGISTRY_KEY_PATH
-      label: Registry key path
-      required: true
-      type: string
-      default: /certs/production/certs/inkmap/privkey.pem
-    - variable: GITLAB_REGISTRY_ISSUER
-      label: Registry issuer
-      required: true
-      type: string
-      default: gitlab-issuer
