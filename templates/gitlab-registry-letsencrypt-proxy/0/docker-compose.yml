@@ -4,7 +4,7 @@ services:
     image: registry:2
     environment:
       REGISTRY_AUTH_TOKEN_ISSUER: gitlab-issuer
-      REGISTRY_AUTH_TOKEN_REALM: https://${GITLAB_HOST}.${DOMAIN_NAME}/jwt/auth
+      REGISTRY_AUTH_TOKEN_REALM: https://${GITLAB_HOST}/jwt/auth
       REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/production/certs/${DOMAIN_NAME}/registry-auth.crt
       REGISTRY_AUTH_TOKEN_SERVICE: container_registry
       REGISTRY_LOG_LEVEL: debug
@@ -88,7 +88,9 @@ services:
       API_VERSION: ${API_VERSION}
       CERT_NAME: ${DOMAIN_NAME}
       EMAIL: ${EMAIL}
-      DOMAINS: ${GITLAB_HOST}.${DOMAIN_NAME},${GITLAB_REGISTRY_HOST}.${DOMAIN_NAME}
+      DOMAINS:
+        - ${GITLAB_HOST}
+        - ${GITLAB_REGISTRY_HOST}
       PUBLIC_KEY_TYPE: ${PUBLIC_KEY_TYPE}
       RENEWAL_TIME: ${RENEWAL_TIME}
       PROVIDER: HTTP
