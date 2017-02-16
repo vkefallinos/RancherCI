@@ -5,7 +5,7 @@ services:
     environment:
       REGISTRY_AUTH_TOKEN_ISSUER: gitlab-issuer
       REGISTRY_AUTH_TOKEN_REALM: https://${GITLAB_HOST}/jwt/auth
-      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/production/certs/${DOMAIN_NAME}/registry-auth.crt
+      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/production/certs/${CERT_NAME}/registry-auth.crt
       REGISTRY_AUTH_TOKEN_SERVICE: container_registry
       REGISTRY_LOG_LEVEL: debug
       REGISTRY_STORAGE_DELETE_ENABLED: 'true'
@@ -48,7 +48,7 @@ services:
       GITLAB_REGISTRY_ENABLED: 'true'
       GITLAB_REGISTRY_HOST: registry.inkmap.com
       GITLAB_REGISTRY_ISSUER: gitlab-issuer
-      GITLAB_REGISTRY_KEY_PATH: /home/git/gitlab/certs/production/certs/${DOMAIN_NAME}/privkey.pem
+      GITLAB_REGISTRY_KEY_PATH: /home/git/gitlab/certs/production/certs/${CERT_NAME}/privkey.pem
       GITLAB_REGISTRY_PATH: /registry
       GITLAB_REGISTRY_PORT: ''
       GITLAB_SECRETS_DB_KEY_BASE: ${GITLAB_SECRETS_DB_KEY_BASE}
@@ -58,8 +58,8 @@ services:
       GITLAB_HTTPS: true
       REDIS_HOST: redis
       REDIS_PORT: '6379'
-      SSL_REGISTRY_CERT_PATH: /home/git/certs/production/certs/${DOMAIN_NAME}/fullchain.pem
-      SSL_REGISTRY_KEY_PATH: /home/git/certs/production/certs/${DOMAIN_NAME}/privkey.pem
+      SSL_REGISTRY_CERT_PATH: /home/git/certs/production/certs/${CERT_NAME}/fullchain.pem
+      SSL_REGISTRY_KEY_PATH: /home/git/certs/production/certs/${CERT_NAME}/privkey.pem
     volumes:
     - lets-encrypt:/home/git/certs
     - /gitlab/shared/registry:/registry
@@ -88,9 +88,7 @@ services:
       API_VERSION: ${API_VERSION}
       CERT_NAME: ${DOMAIN_NAME}
       EMAIL: ${EMAIL}
-      DOMAINS:
-        - ${GITLAB_HOST}
-        - ${GITLAB_REGISTRY_HOST}
+      DOMAINS: ${DOMAINS}
       PUBLIC_KEY_TYPE: ${PUBLIC_KEY_TYPE}
       RENEWAL_TIME: ${RENEWAL_TIME}
       PROVIDER: HTTP

@@ -4,12 +4,6 @@
   description: Trusted SSL certificates at zero cost
   minimum_rancher_version: v1.2.0-pre4-rc1
   questions:
-    - variable: ${DOMAIN_NAME}
-      label: Your Email Address
-      description: |
-      Enter the email address to use for creating the Let's Encrypt account.
-      required: true
-      type: string
     - variable: API_VERSION
       label: Let's Encrypt API Version
       description: |
@@ -25,6 +19,20 @@
       label: Your Email Address
       description: |
         Enter the email address to use for creating the Let's Encrypt account.
+      required: true
+      type: string
+    - variable: CERT_NAME
+      label: Certificate Name
+      description: |
+        Name for storing the certificate in the Rancher API and in volumes.
+        Any existing certificate by that name will be updated.
+      required: true
+      type: string
+    - variable: DOMAINS
+      label: Domain Names
+      description: |
+        Comma delimited list of the certificate domains starting with the Common Name.
+        E.g: `example.com, dev.example.com`.
       required: true
       type: string
     - variable: PUBLIC_KEY_TYPE
@@ -47,21 +55,6 @@
       default: 12
       required: true
       type: int
-    - variable: GITLAB_SECRETS_DB_KEY_BASE
-      label: Gitlab secrets db key base
-      required: true
-      type: password
-      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
-    - variable: GITLAB_SECRETS_SECRET_KEY_BASE
-      label: Gitlab secrets db key base
-      required: true
-      type: password
-      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
-    - variable: GITLAB_SECRETS_OTP_KEY_BASE
-      label: Gitlab secrets db key base
-      required: true
-      type: password
-      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_DB_PASS
       label: Gitlab db pass
       required: true
