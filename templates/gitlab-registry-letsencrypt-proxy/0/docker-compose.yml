@@ -5,7 +5,7 @@ services:
     environment:
       REGISTRY_AUTH_TOKEN_ISSUER: gitlab-issuer
       REGISTRY_AUTH_TOKEN_REALM: https://${GITLAB_HOST}/jwt/auth
-      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/production/certs/${CERT_NAME}/registry-auth.crt
+      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/production/certs/${CERT_NAME}/fullchain.pem
       REGISTRY_AUTH_TOKEN_SERVICE: container_registry
       REGISTRY_LOG_LEVEL: debug
       REGISTRY_STORAGE_DELETE_ENABLED: 'true'

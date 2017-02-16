@@ -67,18 +67,22 @@
       label: Gitlab db secret
       required: true
       type: password
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_SECRETS_OTP_KEY_BASE
       label: Gitlab otp secret
       required: true
       type: password
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_SECRETS_SECRET_KEY_BASE
       label: Gitlab secret
       required: true
       type: password
+      default: oib2VIJCUYSnj2BPilrLVsufOuZEK1wb6RmX3jXGs2IkuB8rgOPcyDBQ10rmWEgD
     - variable: GITLAB_DB_PASS
       label: Gitlab db pass
       required: true
       type: password
+      default: arandompassword
 gitlab-registry-lb:
   scale: 1
   start_on_create: true
