@@ -47,7 +47,7 @@ services:
       GITLAB_PORT: '80'
       GITLAB_REGISTRY_API_URL: http://registry:5000
       GITLAB_REGISTRY_ENABLED: 'true'
-      GITLAB_REGISTRY_HOST: registry.inkmap.com
+      GITLAB_REGISTRY_HOST: ${GITLAB_REGISTRY_HOST}
       GITLAB_REGISTRY_ISSUER: gitlab-issuer
       GITLAB_REGISTRY_KEY_PATH: /home/git/gitlab/certs/production/certs/${CERT_NAME}/privkey.pem
       GITLAB_REGISTRY_PATH: /registry
@@ -68,6 +68,7 @@ services:
     - /logs:/var/log/gitlab
     links:
     - registry:registry
+    - postgresql:postgresql
   gl-multi-runner:
     labels:
      io.rancher.container.pull_image: always
