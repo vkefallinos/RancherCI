@@ -83,66 +83,52 @@
       required: true
       type: password
       default: arandompassword
-gitlab-registry-lb:
-  scale: 1
-  start_on_create: true
-  lb_config:
-    certs: []
-    config: |-
-      frontend 80
-        bind *:80
-        mode http
-        redirect scheme https if !{ ssl_fc }
-    default_cert: ${CERT_NAME}
-    port_rules:
-    - hostname: ${GITLAB_HOST}
-      path: /.well-known/acme-challenge
-      priority: 5
-      protocol: http
-      service: letsencrypt
-      source_port: 80
-      target_port: 80
-    - hostname: ${GITLAB_REGISTRY_HOST}
-      path: /.well-known/acme-challenge
-      priority: 6
-      protocol: http
-      service: letsencrypt
-      source_port: 80
-      target_port: 80
-    - hostname: ${GITLAB_HOST}
-      path: /
-      priority: 1
-      protocol: https
-      service: gitlab
-      source_port: 443
-      target_port: 80
-    - hostname:  ${GITLAB_REGISTRY_HOST}
-      path: /
-      priority: 2
-      protocol: https
-      service: registry
-      source_port: 5000
-      target_port: 5000
-    - hostname: ${GITLAB_HOST}
-      path: /
-      priority: 3
-      protocol: https
-      service: gitlab
-      source_port: 5500
-      target_port: 5500
-    - hostname: ${GITLAB_HOST}
-      priority: 4
-      protocol: tcp
-      service: gitlab
-      source_port: 22
-      target_port: 22
-    health_check:
-      healthy_threshold: 2
-      response_timeout: 2000
-      port: 42
-      unhealthy_threshold: 3
-      interval: 2000
-      strategy: recreate
+  gitlab-registry-proxy:
+    scale: 1
+    start_on_create: false
+    lb_config:
+      certs: []
+      config: |-
+        frontend 80
+          bind *:80
+          mode http
+          redirect scheme https if !{ ssl_fc }
+      default_cert: ${CERT_NAME}
+      port_rules:
+      - hostname: ${GITLAB_HOST}
+        path: /
+        priority: 1
+        protocol: https
+        service: gitlab
+        source_port: 443
+        target_port: 80
+      - hostname:  ${GITLAB_REGISTRY_HOST}
+        path: /
+        priority: 2
+        protocol: https
+        service: registry
+        source_port: 5000
+        target_port: 5000
+      - hostname: ${GITLAB_HOST}
+        path: /
+        priority: 3
+        protocol: https
+        service: gitlab
+        source_port: 5500
+        target_port: 5500
+      - hostname: ${GITLAB_HOST}
+        priority: 4
+        protocol: tcp
+        service: gitlab
+        source_port: 22
+        target_port: 22
+      health_check:
+        healthy_threshold: 2
+        response_timeout: 2000
+        port: 42
+        unhealthy_threshold: 3
+        interval: 2000
+        strategy: recreate
   postgresql:
     scale: 1
     start_on_create: true
@@ -158,3 +144,30 @@ gitlab-registry-lb:
   letsencrypt:
     scale: 1
     start_on_create: true
+  letsencrypt-proxy:
+    scale: 1
+    start_on_create: false
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${GITLAB_HOST}
+        path: /.well-known/acme-challenge
+        priority: 5
+        protocol: http
+        service: letsencrypt
+        source_port: 80
+        target_port: 80
+      - hostname: ${GITLAB_REGISTRY_HOST}
+        path: /.well-known/acme-challenge
+        priority: 6
+        protocol: http
+        service: letsencrypt
+        source_port: 80
+        target_port: 80
+      health_check:
+        healthy_threshold: 2
+        response_timeout: 2000
+        port: 42
+        unhealthy_threshold: 3
+        interval: 2000
+        strategy: recreate

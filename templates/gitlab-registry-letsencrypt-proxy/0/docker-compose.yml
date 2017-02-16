@@ -13,14 +13,20 @@ services:
     volumes:
     - /gitlab/shared/registry:/registry
     - lets-encrypt:/certs
-  gitlab-registry-lb:
+  letsencrypt-proxy:
+    image: rancher/lb-service-haproxy:v0.5.9
+    ports:
+    - 80:80/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+  gitlab-registry-proxy:
     image: rancher/lb-service-haproxy:v0.5.9
     ports:
     - 443:443/tcp
     - 5000:5000/tcp
     - 5500:5500/tcp
     - 22:22/tcp
-    - 80:80/tcp
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
