@@ -28,9 +28,9 @@ services:
     image: sameersbn/postgresql:9.6-2
     environment:
       DB_EXTENSION: pg_trgm
-      DB_NAME: gitlabhq_production
+      DB_NAME: gitlabhq_${CERT_NAME}
       DB_PASS: ${GITLAB_DB_PASS}
-      DB_USER: gitlab
+      DB_USER: gitlab_${CERT_NAME}
     volumes:
     - /postgresql:/var/lib/postgresql:Z
   gitlab:
@@ -38,10 +38,10 @@ services:
     environment:
       DB_ADAPTER: postgresql
       DB_HOST: postgresql
-      DB_NAME: gitlabhq_production
+      DB_NAME: gitlabhq_${CERT_NAME}
       DB_PASS: ${GITLAB_DB_PASS}
       DB_PORT: '5432'
-      DB_USER: gitlab
+      DB_USER: gitlab_${CERT_NAME}
       DEBUG: 'true'
       GITLAB_HOST: ${GITLAB_HOST}
       GITLAB_PORT: '80'
