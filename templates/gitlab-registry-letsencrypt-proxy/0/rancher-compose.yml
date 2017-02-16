@@ -151,3 +151,6 @@ gitlab-registry-lb:
   redis:
     scale: 1
     start_on_create: true
+  letsencrypt:
+    scale: 1
+    start_on_create: true
