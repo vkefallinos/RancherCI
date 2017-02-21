@@ -1,0 +1,110 @@
+version: '2'
+services:
+  registry:
+    image: registry:2
+    environment:
+      REGISTRY_AUTH_TOKEN_ISSUER: gitlab-issuer
+      REGISTRY_AUTH_TOKEN_REALM: https://${GITLAB_HOST}/jwt/auth
+      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/production/certs/${CERT_NAME}/fullchain.pem
+      REGISTRY_AUTH_TOKEN_SERVICE: container_registry
+      REGISTRY_LOG_LEVEL: debug
+      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /registry
+    volumes:
+    - /gitlab/shared/registry:/registry
+    - lets-encrypt:/certs
+  letsencrypt-proxy:
+    image: rancher/lb-service-haproxy:v0.5.9
+    ports:
+    - 80:80/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+  gitlab-registry-proxy:
+    image: rancher/lb-service-haproxy:v0.5.9
+    ports:
+    - 443:443/tcp
+    - 5000:5000/tcp
+    - 5500:5500/tcp
+    - 22:22/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+  postgresql:
+    image: sameersbn/postgresql:9.6-2
+    environment:
+      DB_EXTENSION: pg_trgm
+      DB_NAME: gitlabhq_${CERT_NAME}
+      DB_PASS: ${GITLAB_DB_PASS}
+      DB_USER: gitlab_${CERT_NAME}
+    volumes:
+    - /postgresql:/var/lib/postgresql:Z
+  gitlab:
+    image: sameersbn/gitlab:8.16.4
+    environment:
+      DB_ADAPTER: postgresql
+      DB_HOST: postgresql
+      DB_NAME: gitlabhq_${CERT_NAME}
+      DB_PASS: ${GITLAB_DB_PASS}
+      DB_PORT: '5432'
+      DB_USER: gitlab_${CERT_NAME}
+      DEBUG: 'true'
+      GITLAB_HOST: ${GITLAB_HOST}
+      GITLAB_PORT: '80'
+      GITLAB_REGISTRY_API_URL: http://registry:5000
+      GITLAB_REGISTRY_ENABLED: 'true'
+      GITLAB_REGISTRY_HOST: ${GITLAB_REGISTRY_HOST}
+      GITLAB_REGISTRY_ISSUER: gitlab-issuer
+      GITLAB_REGISTRY_KEY_PATH: /home/git/gitlab/certs/production/certs/${CERT_NAME}/privkey.pem
+      GITLAB_REGISTRY_PATH: /registry
+      GITLAB_REGISTRY_PORT: ''
+      GITLAB_SECRETS_DB_KEY_BASE: ${GITLAB_SECRETS_DB_KEY_BASE}
+      GITLAB_SECRETS_OTP_KEY_BASE: ${GITLAB_SECRETS_OTP_KEY_BASE}
+      GITLAB_SECRETS_SECRET_KEY_BASE: ${GITLAB_SECRETS_SECRET_KEY_BASE}
+      GITLAB_SSH_PORT: '22'
+      GITLAB_HTTPS: true
+      REDIS_HOST: redis
+      REDIS_PORT: '6379'
+      SSL_REGISTRY_CERT_PATH: /home/git/certs/production/certs/${CERT_NAME}/fullchain.pem
+      SSL_REGISTRY_KEY_PATH: /home/git/certs/production/certs/${CERT_NAME}/privkey.pem
+    volumes:
+    - lets-encrypt:/home/git/certs
+    - /gitlab/shared/registry:/registry
+    - /gitlab:/home/git/data:Z
+    - /logs:/var/log/gitlab
+    links:
+    - registry:registry
+    - postgresql:postgresql
+  gl-multi-runner:
+    labels:
+     io.rancher.container.pull_image: always
+    image: gitlab/gitlab-runner:latest ## You could pull this image, store it in your own registry if you want.  Then pull it from there.
+    privileged: true
+    volumes:
+    - /etc/data/gitlab-runner/config:/etc/gitlab-runner
+    - /var/run/docker.sock:/var/run/docker.sock
+  redis:
+    image: sameersbn/redis:latest
+    volumes:
+    - /redis:/var/lib/redis:Z
+    command:
+    - --loglevel warning
+  letsencrypt:
+    image: janeczku/rancher-letsencrypt:v0.4.0
+    environment:
+      EULA: 'Yes'
+      API_VERSION: ${API_VERSION}
+      CERT_NAME: ${CERT_NAME}
+      EMAIL: ${EMAIL}
+      DOMAINS: ${DOMAINS}
+      PUBLIC_KEY_TYPE: ${PUBLIC_KEY_TYPE}
+      RENEWAL_TIME: ${RENEWAL_TIME}
+      PROVIDER: HTTP
+    volumes:
+      - lets-encrypt:/etc/letsencrypt
+    labels:
+      io.rancher.container.create_agent: 'true'
+      io.rancher.container.agent.role: 'environment'
+volumes:
+  lets-encrypt:
+    driver: null
