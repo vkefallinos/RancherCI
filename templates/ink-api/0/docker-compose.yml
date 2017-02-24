@@ -40,6 +40,9 @@ services:
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
+    depends_on:
+      - web
+      - sidekiq
   sidekiq:
     image: registry.inkmap.com:5000/devops/ink-api:latest
     command: '/bin/sh docker/init_prod_sidekiq.sh'
