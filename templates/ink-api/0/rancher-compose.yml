@@ -21,7 +21,7 @@ version: '2'
 services:
   ink-api-proxy:
     scale: 1
-    start_on_create: true
+    start_on_create: false
     lb_config:
       certs: []
       port_rules:
