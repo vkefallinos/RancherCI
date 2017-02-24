@@ -20,7 +20,7 @@ services:
       - redis
     volumes:
       - ./:/ink-api
-    env:
+    environment:
     - POSTGRESQL_HOST: postgres
     - POSTGRESQL_PORT: 6379/1
     - POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
@@ -33,10 +33,17 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
+  ink-api-proxy:
+    image: rancher/lb-service-haproxy:v0.5.9
+    ports:
+    - 80:80/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
   sidekiq:
     image: registry.inkmap.com:5000/devops/ink-api:latest
     command: '/bin/sh docker/init_prod_sidekiq.sh'
-    env:
+    environment:
     - POSTGRESQL_HOST: postgres
     - POSTGRESQL_PORT: 6379/1
     - POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
