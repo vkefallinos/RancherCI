@@ -21,7 +21,7 @@ version: '2'
 services:
   ink-api-proxy:
     scale: 1
-    start_on_create: false
+    start_on_create: true
     lb_config:
       certs: []
       port_rules:
@@ -29,7 +29,7 @@ services:
         path: /
         priority: 1
         protocol: http
-        service: ink-api
+        service: web
         source_port: 80
         target_port: 3000
     health_check:
@@ -38,7 +38,10 @@ services:
       port: 42
       unhealthy_threshold: 3
       interval: 2000
-  ink-api:
+  web:
+    scale: 1
+    start_on_create: true
+  sidekiq:
     scale: 1
     start_on_create: true
   postgresql:
