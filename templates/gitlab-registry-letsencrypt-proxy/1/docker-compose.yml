@@ -31,12 +31,14 @@ services:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
   postgresql:
-    image: sameersbn/postgresql:9.6-2
+    image: postgresql:9.6
     environment:
-      DB_EXTENSION: pg_trgm
-      DB_NAME: gitlabhq_${CERT_NAME}
-      DB_PASS: ${GITLAB_DB_PASS}
-      DB_USER: gitlab_${CERT_NAME}
+      # DB_EXTENSION: pg_trgm
+      POSTGRES_DB: gitlabhq_${CERT_NAME}
+      POSTGRES_PASSWORD: ${GITLAB_DB_PASS}
+      POSTGRES_USER: gitlab_${CERT_NAME}
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_INITDB_ARGS: ""
     volumes:
     - /postgresql:/var/lib/postgresql:Z
   gitlab:
@@ -84,7 +86,7 @@ services:
     - /etc/data/gitlab-runner/config:/etc/gitlab-runner
     - /var/run/docker.sock:/var/run/docker.sock
   redis:
-    image: sameersbn/redis:latest
+    image: redis:3.0.7-alpine
     volumes:
     - /redis:/var/lib/redis:Z
     command:
