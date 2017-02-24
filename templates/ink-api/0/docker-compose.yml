@@ -21,14 +21,14 @@ services:
     volumes:
       - ./:/ink-api
     environment:
-    - POSTGRESQL_HOST: postgres
-    - POSTGRESQL_PORT: 6379/1
-    - POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
-    - POSTGRESQL_USERNAME: postgres
-    - REDIS_HOST: redis
-    - DEVISE_ADMIN_EMAIL: admin@example.com
-    - SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-    - PRODUCTION_FILE_LOCATION: ./ink_api_files/
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 6379/1
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_USERNAME: postgres
+      REDIS_HOST: redis
+      DEVISE_ADMIN_EMAIL: admin@example.com
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PRODUCTION_FILE_LOCATION: ./ink_api_files/
     ports:
       - "3000:3000"
     depends_on:
@@ -44,14 +44,14 @@ services:
     image: registry.inkmap.com:5000/devops/ink-api:latest
     command: '/bin/sh docker/init_prod_sidekiq.sh'
     environment:
-    - POSTGRESQL_HOST: postgres
-    - POSTGRESQL_PORT: 6379/1
-    - POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
-    - POSTGRESQL_USERNAME: postgres
-    - REDIS_HOST: redis
-    - DEVISE_ADMIN_EMAIL: admin@example.com
-    - SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-    - PRODUCTION_FILE_LOCATION: ./ink_api_files/
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 6379/1
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_USERNAME: postgres
+      REDIS_HOST: redis
+      DEVISE_ADMIN_EMAIL: admin@example.com
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PRODUCTION_FILE_LOCATION: ./ink_api_files/
     links:
       - postgres
       - redis
