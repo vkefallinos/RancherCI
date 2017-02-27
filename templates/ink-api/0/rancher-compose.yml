@@ -14,7 +14,7 @@
       label: secret key base
       required: true
       type: password
-      default: arandompassword
+      default: 943d29212a265d6d7781b07f2850dde8b5b1bb72c2b713e2f72c74322d24f06a0da6276c8e88d454c976641fe410d9cc0fc4fd5ad7f2169dbb3593cc117e9d33
 
 
 version: '2'

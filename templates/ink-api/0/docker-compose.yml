@@ -5,13 +5,13 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /ink-api/postgres:/var/lib/postgresql/data
+      - /ink-api-postgres:/var/lib/postgresql/data
   redis:
     image: 'redis:latest'
     ports:
       - "6379:6379"
     volumes:
-      - /ink-api/redis:/var/lib/redis/data
+      - /ink-api-redis:/var/lib/redis/data
   web:
     image: registry.inkmap.com:5000/devops/ink-api:latest
     command: '/bin/sh /ink-api/docker/init_prod_server.sh'
