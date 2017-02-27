@@ -22,15 +22,15 @@ services:
       - /ink_api_files:/ink_api_files
     environment:
       POSTGRESQL_HOST: postgres
-      POSTGRESQL_PORT: 6379/1
+      POSTGRESQL_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
       POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
       POSTGRESQL_USERNAME: postgres
-      REDIS_HOST: redis
       DEVISE_ADMIN_EMAIL: admin@example.com
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DEVELOPMENT_SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       PRODUCTION_FILE_LOCATION: /ink_api_files/
-    ports:
-      - "3000:3000"
     depends_on:
       - postgres
   ink-api-proxy:
@@ -48,13 +48,13 @@ services:
     command: '/bin/sh /ink-api/docker/init_prod_sidekiq.sh'
     environment:
       POSTGRESQL_HOST: postgres
-      POSTGRESQL_PORT: 6379/1
+      POSTGRESQL_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
       POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
       POSTGRESQL_USERNAME: postgres
-      REDIS_HOST: redis
       DEVISE_ADMIN_EMAIL: admin@example.com
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      PRODUCTION_FILE_LOCATION: /ink-api/ink_api_files/
     links:
       - postgres
       - redis
