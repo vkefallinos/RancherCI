@@ -19,7 +19,7 @@ services:
       - postgres
       - redis
     volumes:
-      - /ink-api:/ink-api
+      - /ink_api_files:/ink_api_files
     environment:
       POSTGRESQL_HOST: postgres
       POSTGRESQL_PORT: 6379/1
@@ -28,7 +28,7 @@ services:
       REDIS_HOST: redis
       DEVISE_ADMIN_EMAIL: admin@example.com
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      PRODUCTION_FILE_LOCATION: /ink-api/ink_api_files/
+      PRODUCTION_FILE_LOCATION: /ink_api_files/
     ports:
       - "3000:3000"
     depends_on:
@@ -58,8 +58,6 @@ services:
     links:
       - postgres
       - redis
-    volumes:
-      - /ink-api:/ink-api
     depends_on:
       - web
       - postgres
