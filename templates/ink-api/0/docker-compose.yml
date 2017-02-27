@@ -14,7 +14,7 @@ services:
       - /ink-api/redis:/var/lib/redis/data
   web:
     image: registry.inkmap.com:5000/devops/ink-api:latest
-    command: '/bin/sh docker/init_prod_server.sh'
+    command: '/bin/sh /ink-api/docker/init_prod_server.sh'
     links:
       - postgres
       - redis
@@ -28,7 +28,7 @@ services:
       REDIS_HOST: redis
       DEVISE_ADMIN_EMAIL: admin@example.com
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      PRODUCTION_FILE_LOCATION: ./ink_api_files/
+      PRODUCTION_FILE_LOCATION: /ink-api/ink_api_files/
     ports:
       - "3000:3000"
     depends_on:
@@ -45,7 +45,7 @@ services:
       - sidekiq
   sidekiq:
     image: registry.inkmap.com:5000/devops/ink-api:latest
-    command: '/bin/sh docker/init_prod_sidekiq.sh'
+    command: '/bin/sh /ink-api/docker/init_prod_sidekiq.sh'
     environment:
       POSTGRESQL_HOST: postgres
       POSTGRESQL_PORT: 6379/1
@@ -54,7 +54,7 @@ services:
       REDIS_HOST: redis
       DEVISE_ADMIN_EMAIL: admin@example.com
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      PRODUCTION_FILE_LOCATION: ./ink_api_files/
+      PRODUCTION_FILE_LOCATION: /ink-api/ink_api_files/
     links:
       - postgres
       - redis
