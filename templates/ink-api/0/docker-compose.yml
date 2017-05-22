@@ -14,7 +14,7 @@ services:
       - /ink-api-redis:/var/lib/redis/data
   web:
     image: inkmap/ink-api:latest
-    command: '/bin/sh /ink-api/docker/init_prod_server.sh'
+    command: '/bin/sh /ink-api/docker/init_server.sh'
     links:
       - postgres
       - redis
@@ -45,7 +45,7 @@ services:
       - sidekiq
   sidekiq:
     image: inkmap/ink-api:latest
-    command: '/bin/sh /ink-api/docker/init_prod_sidekiq.sh'
+    command: '/bin/sh /ink-api/docker/init_sidekiq.sh'
     environment:
       POSTGRESQL_HOST: postgres
       POSTGRESQL_PORT: 5432
