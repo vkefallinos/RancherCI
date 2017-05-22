@@ -13,7 +13,7 @@ services:
     volumes:
       - /ink-api-redis:/var/lib/redis/data
   web:
-    image: registry.inkmap.com:5000/devops/ink-api:latest
+    image: inkmap/ink-api:latest
     command: '/bin/sh /ink-api/docker/init_prod_server.sh'
     links:
       - postgres
@@ -44,7 +44,7 @@ services:
       - web
       - sidekiq
   sidekiq:
-    image: registry.inkmap.com:5000/devops/ink-api:latest
+    image: inkmap/ink-api:latest
     command: '/bin/sh /ink-api/docker/init_prod_sidekiq.sh'
     environment:
       POSTGRESQL_HOST: postgres
@@ -61,3 +61,15 @@ services:
     depends_on:
       - web
       - postgres
+  slanger:
+    image: antillion/slanger
+    ports:
+      - 4567:4567
+      - 8080:8080
+    links:
+      - redis:redis
+    environment:
+      APPKEY: 765ec374ae0a69f4ce44
+      APPSECRET: 765ec374ae0a69f4ce44
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
