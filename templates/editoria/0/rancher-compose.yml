@@ -1,0 +1,51 @@
+.catalog:
+  name: Editoria
+  version: 0.1.2
+  uuid: editoria-0.1.2
+  description: Editoria document framework
+  minimum_rancher_version: v1.2.0-pre4-rc1
+  questions:
+    - variable: PUB_PASS
+      label: Editoria admin's password
+      required: true
+      type: password
+      default: arandompassword
+    - variable: PUB_USER
+      label: Editoria admin's username
+      required: true
+    - variable: PUB_MAIL
+      label: Editoria admin's mail
+      required: true
+    - variable: PUB_COL
+      label: Editoria collection
+      required: true
+    - variable: PUBSWEET_SECRET
+      label: Pubsweet secret
+      required: true
+      type: password
+      default: 5046a3dd-d178-41ac-bd87-cac327cdf23a
+    - variable: INK_PASSWORD
+      label: Ink Api password
+      required: true
+      type: password
+      default: 12345
+    - variable: INK_ENDPOINT
+      label: Ink Api endpoint
+      required: true
+      default: https://api.inkmap.com
+    - variable: INK_USERNAME
+      label: Ink Api username
+      required: true
+      default: admin@admin.com
+
+version: '2'
+services:
+  setupdb:
+    scale: 1
+    start_on_create: true
+  editoria:
+    scale: 1
+    start_on_create: true
+  nginxauth:
+    scale: 1
+    start_on_create: true
