@@ -26,4 +26,3 @@ services:
     - ink/web:inkapi
     volumes:
     - /editoria/api/db/production:/editoria/api/db/production
-s
