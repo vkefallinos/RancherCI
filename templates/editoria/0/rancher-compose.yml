@@ -12,31 +12,42 @@
       default: arandompassword
     - variable: PUB_USER
       label: Editoria admin's username
-      required: true
+      type: string
+      default: admin
     - variable: PUB_MAIL
       label: Editoria admin's mail
       required: true
+      type: string
+      default: admin@admin.com
     - variable: PUB_COL
       label: Editoria collection
       required: true
+      type: string
+      default: col
     - variable: PUBSWEET_SECRET
       label: Pubsweet secret
       required: true
       type: password
       default: 5046a3dd-d178-41ac-bd87-cac327cdf23a
+    - variable: INK_USERNAME
+      label: Ink Api username
+      required: true
+      type: string
+      default: admin@admin.com
     - variable: INK_PASSWORD
       label: Ink Api password
       required: true
       type: password
       default: 12345
+    - variable: INK_AUTH
+      label: Ink Api apikey
+      required: true
+      type: password
     - variable: INK_ENDPOINT
       label: Ink Api endpoint
       required: true
       default: https://api.inkmap.com
-    - variable: INK_USERNAME
-      label: Ink Api username
-      required: true
-      default: admin@admin.com
+      type: string
 
 version: '2'
 services:
@@ -44,8 +55,5 @@ services:
     scale: 1
     start_on_create: true
   editoria:
-    scale: 1
-    start_on_create: true
-  nginxauth:
     scale: 1
     start_on_create: true
