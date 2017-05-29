@@ -12,5 +12,7 @@ RUN  curl -L \
 RUN apk add --no-cache make gcc g++ python && \
   npm install --production && \
   apk del make gcc g++ python git curl
+RUN mkdir docker
+COPY ./setupdb ./docker/setupdb
 EXPOSE 3000:3000
 CMD ["npm", "start"]

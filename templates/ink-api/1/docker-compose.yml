@@ -1,0 +1,66 @@
+version: '2'
+services:
+  postgres:
+    image: 'postgres:9.5'
+    volumes:
+      - /ink-api-postgres:/var/lib/postgresql/data
+  redis:
+    image: 'redis:latest'
+    volumes:
+      - /ink-api-redis:/var/lib/redis/data
+  ink:
+    image: inkmap/ink-api:0.1.1
+    command: '/bin/sh /ink-api/docker/init_server.sh'
+    links:
+      - postgres
+      - redis
+    volumes:
+      - /ink_api_files:/ink_api_files
+    environment:
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_USERNAME: postgres
+      DEVISE_ADMIN_EMAIL: ${DEVISE_ADMIN_EMAIL}
+      DEVISE_SECRET_KEY: ${DEVISE_SECRET_KEY}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DEVELOPMENT_SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PRODUCTION_FILE_LOCATION: /ink_api_files/
+      DEVELOPMENT_FILE_LOCATION: /ink_api_files/
+      SLANGER_ID: ${SLANGER_APP_ID}
+      SLANGER_APP_ID: ${SLANGER_APP_ID}
+      SLANGER_KEY: ${SLANGER_KEY}
+      SLANGER_SECRET: ${SLANGER_SECRET}
+      INK_EMAIL: ${INK_EMAIL}
+      INK_PASSWORD: ${INK_PASSWORD}
+    depends_on:
+      - postgres
+  sidekiq:
+    image: inkmap/ink-api:0.1.1
+    command: '/bin/sh /ink-api/docker/init_sidekiq.sh'
+    environment:
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_USERNAME: postgres
+      DEVISE_ADMIN_EMAIL: admin@example.com
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    links:
+      - postgres
+      - redis
+    depends_on:
+      - ink
+      - postgres
+  slanger:
+    image: antillion/slanger
+    links:
+      - redis:redis
+    environment:
+      APPKEY: ${SLANGER_KEY}
+      APPSECRET: ${SLANGER_SECRET}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
