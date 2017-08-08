@@ -10,7 +10,7 @@ RUN  curl -L \
  https://gitlab.coko.foundation/editoria/editoria/repository/archive.tar.gz?ref=1.1.1 \
  | tar zx -C . --strip-components 1
 RUN apk add --no-cache make gcc g++ python && \
-  npm install --production && \
+  npm install --production && npm rebuild bcrypt --build-from-source \
   apk del make gcc g++ python git curl
 RUN mkdir docker
 COPY ./setupdb ./docker/setupdb
