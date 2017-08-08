@@ -7,7 +7,7 @@ ENV INSTALL_PATH /editoria
 RUN mkdir -p $INSTALL_PATH
 WORKDIR $INSTALL_PATH
 RUN  curl -L \
- https://gitlab.coko.foundation/editoria/editoria/repository/archive.tar.gz?ref=1.1.0 \
+ https://gitlab.coko.foundation/editoria/editoria/repository/archive.tar.gz?ref=1.1.1 \
  | tar zx -C . --strip-components 1
 RUN apk add --no-cache make gcc g++ python && \
   npm install --production && \
