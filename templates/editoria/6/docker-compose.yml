@@ -1,0 +1,28 @@
+version: '2'
+services:
+  setupdb:
+    image: inkmap/editoria:1.1.2
+    environment:
+      PUB_COL: ${PUB_COL}
+      PUB_MAIL: ${PUB_MAIL}
+      PUB_PASS: ${PUB_PASS}
+      PUB_USER: ${PUB_USER}
+    volumes:
+    - /editoria/api/db/production:/editoria/api/db/production
+    command:
+    - sh
+    - docker/setupdb
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  editoria:
+    image: inkmap/editoria:1.1.2
+    environment:
+      PUBSWEET_SECRET: ${PUBSWEET_SECRET}
+      INK_ENDPOINT: ${INK_ENDPOINT}
+      INK_USERNAME: ${INK_USERNAME}
+      INK_PASSWORD: ${INK_PASSWORD}
+    external_links:
+    - ink/web:inkapi
+    volumes:
+    - /editoria/api/db/production:/editoria/api/db/production
