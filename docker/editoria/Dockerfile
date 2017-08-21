@@ -7,11 +7,12 @@ ENV INSTALL_PATH /editoria
 RUN mkdir -p $INSTALL_PATH
 WORKDIR $INSTALL_PATH
 RUN  curl -L \
- https://gitlab.coko.foundation/editoria/editoria/repository/archive.tar.gz?ref=1.1.1 \
+ https://gitlab.coko.foundation/editoria/editoria/repository/archive.tar.gz?ref=1.1.2 \
  | tar zx -C . --strip-components 1
 RUN apk add --no-cache make gcc g++ python && \
   npm install --production && npm rebuild bcrypt --build-from-source \
   apk del make gcc g++ python git curl
+RUN touch .env.production
 RUN mkdir docker
 COPY ./setupdb ./docker/setupdb
 EXPOSE 3000:3000
