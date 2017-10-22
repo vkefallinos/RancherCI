@@ -1,6 +1,6 @@
 .catalog:
   name: ink-api
-  version: 0.1.1
+  version: 1.4.0
   uuid: ink-api-1
   description: Ink api repo
   minimum_rancher_version: v1.2.0-pre4-rc1
@@ -21,15 +21,15 @@
       type: string
       default: slangerappid
     - variable: SLANGER_HOST
-      label: Slanger app id
+      label: Slanger host
       required: true
       type: string
-      default: slangerappid
-    - variable: SLANGER_PORT
-      label: Slanger app id
+      default: slanger
+    - variable: SLANGER_HTTP_PORT
+      label: Slanger port
       required: true
       type: string
-      default: slangerappid
+      default: 4567
     - variable: SLANGER_KEY
       label: Slanger key
       required: true
