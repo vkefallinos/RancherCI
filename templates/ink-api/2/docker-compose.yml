@@ -86,9 +86,6 @@ services:
     image: inkmap/slanger:1.0.3
     links:
       - redis:redis
-    ports:
-      - 4567:4567
-      - 8080:8080
     environment:
       SLANGER_KEY: ${SLANGER_KEY}
       SLANGER_SECRET: ${SLANGER_SECRET}
