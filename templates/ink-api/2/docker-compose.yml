@@ -1,0 +1,109 @@
+version: '2'
+services:
+  postgres:
+    image: 'postgres:9.5'
+    volumes:
+      - /ink-api-postgres:/var/lib/postgresql/data
+  redis:
+    image: 'redis:latest'
+    volumes:
+      - /ink-api-redis:/var/lib/redis/data
+  ink:
+    image: inkmap/ink-api:docker-dev
+    command: '/bin/sh /ink-api/docker/init_server.sh'
+    links:
+      - postgres
+      - redis
+      - slanger
+    volumes:
+      - /ink_api_files:/ink_api_files
+    environment:
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 5432
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
+      REDIS_DB: inkdb
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_USERNAME: postgres
+      DEVISE_ADMIN_EMAIL: ${DEVISE_ADMIN_EMAIL}
+      DEVISE_SECRET_KEY: ${DEVISE_SECRET_KEY}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DEVELOPMENT_SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PRODUCTION_FILE_LOCATION: /ink_api_files/
+      DEVELOPMENT_FILE_LOCATION: /ink_api_files/
+      SLANGER_ID: ${SLANGER_APP_ID}
+      SLANGER_APP_ID: ${SLANGER_APP_ID}
+      SLANGER_KEY: ${SLANGER_KEY}
+      SLANGER_SECRET: ${SLANGER_SECRET}
+      INK_EMAIL: ${INK_EMAIL}
+      INK_PASSWORD: ${INK_PASSWORD}
+      SLANGER_HOST: ${SLANGER_HOST}
+      SLANGER_HTTP_PORT: ${SLANGER_HTTP_PORT}
+      SLANGER_PORT: ${SLANGER_HTTP_PORT}
+      RAILS_ENV: production
+      DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
+    depends_on:
+      - postgres
+      - slanger
+  sidekiq:
+    image: inkmap/ink-api:docker-dev
+    command: '/bin/sh /ink-api/docker/init_sidekiq.sh'
+    environment:
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 5432
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
+      REDIS_DB: inkdb
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_USERNAME: postgres
+      DEVISE_ADMIN_EMAIL: ${DEVISE_ADMIN_EMAIL}
+      DEVISE_SECRET_KEY: ${DEVISE_SECRET_KEY}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DEVELOPMENT_SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PRODUCTION_FILE_LOCATION: /ink_api_files/
+      DEVELOPMENT_FILE_LOCATION: /ink_api_files/
+      SLANGER_ID: ${SLANGER_APP_ID}
+      SLANGER_APP_ID: ${SLANGER_APP_ID}
+      SLANGER_KEY: ${SLANGER_KEY}
+      SLANGER_SECRET: ${SLANGER_SECRET}
+      INK_EMAIL: ${INK_EMAIL}
+      INK_PASSWORD: ${INK_PASSWORD}
+      SLANGER_HOST: ${SLANGER_HOST}
+      SLANGER_HTTP_PORT: ${SLANGER_HTTP_PORT}
+      SLANGER_PORT: ${SLANGER_HTTP_PORT}
+      RAILS_ENV: production
+      DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
+    links:
+      - postgres
+      - redis
+      - slanger
+    depends_on:
+      - ink
+      - postgres
+  slanger:
+    image: inkmap/slanger:1.0.3
+    links:
+      - redis:redis
+    ports:
+      - 4567:4567
+      - 8080:8080
+    environment:
+      SLANGER_KEY: ${SLANGER_KEY}
+      SLANGER_SECRET: ${SLANGER_SECRET}
+      SLANGER_HTTP_PORT: ${SLANGER_HTTP_PORT}
+      SLANGER_PORT: ${SLANGER_HTTP_PORT}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379/1
+      REDIS_URL: redis://redis:6379
+  ink-client:
+    image: inkmap/ink-client:1.0.4
+    environment:
+      INK_HOST: "'localhost'"
+      API_URL: "'http://localhost:3000'"
+      SLANGER_WS_PORT: 8080
+      SLANGER_HTTP_PORT: 4567
+      SLANGER_KEY: "'44332211ffeeddccbbaa'"
+      NODE_ENV: "'production'"
+      STAGE: "'production'"
